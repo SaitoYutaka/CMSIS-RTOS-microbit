@@ -1,0 +1,45 @@
+diff --git a/CMSIS/RTOS/RTX/INC/RTX_CM_lib.h b/CMSIS/RTOS/RTX/INC/RTX_CM_lib.h
+index 771faf149..2124619fb 100644
+--- a/CMSIS/RTOS/RTX/INC/RTX_CM_lib.h
++++ b/CMSIS/RTOS/RTX/INC/RTX_CM_lib.h
+@@ -509,6 +509,15 @@ __attribute ((noreturn)) void __cs3_start_c (void){
+ 
+ #else
+ 
++void _fini (void) {
++
++}
++
++void _init (void) {
++
++}
++
++#if 0
+ __attribute__((naked)) void software_init_hook (void) {
+   __asm (
+     ".syntax unified\n"
+@@ -530,6 +539,7 @@ __attribute__((naked)) void software_init_hook (void) {
+     "bl   exit\n"
+   );
+ }
++#endif
+ 
+ #endif
+ 
+diff --git a/CMSIS/RTOS/RTX/SRC/rt_HAL_CM.h b/CMSIS/RTOS/RTX/SRC/rt_HAL_CM.h
+index ef1047a96..9a71bc604 100644
+--- a/CMSIS/RTOS/RTX/SRC/rt_HAL_CM.h
++++ b/CMSIS/RTOS/RTX/SRC/rt_HAL_CM.h
+@@ -219,10 +219,12 @@ __inline static U32 rt_inc_qi (U32 size, U8 *count, U8 *first) {
+ }
+ 
+ __inline static void rt_systick_init (void) {
++#if 0
+   NVIC_ST_RELOAD  = os_trv;
+   NVIC_ST_CURRENT = 0U;
+   NVIC_ST_CTRL    = 0x0007U;
+   NVIC_SYS_PRI3  |= 0xFF000000U;
++#endif
+ }
+ 
+ __inline static U32 rt_systick_val (void) {
